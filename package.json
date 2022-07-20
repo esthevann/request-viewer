@@ -14,7 +14,8 @@
     "raviger": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "tauri-plugin-sql-api": "github:tauri-apps/tauri-plugin-sql#b13efd1e9d8f6c862b67917f3c62536ed1c64e9c"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.0.4",
