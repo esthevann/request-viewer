@@ -4,14 +4,6 @@ import Request from '../components/Request';
 
 
 function Home() {
-  const [count, setCount] = useState(0);
-  const [res, setRes] = useState("");
-
-  
-
-  invoke('greet', { name: 'World' })
-    .then((res) => setRes(res as string))
-
 
   return (
     <div className='flex flex-col gap-3 mt-3'>
