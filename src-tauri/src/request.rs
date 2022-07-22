@@ -52,7 +52,7 @@ enum RequestError {
 }
 
 impl From<RequestError> for tauri::Error {
-    fn from(e: RequestError) -> Self {
+    fn from(_e: RequestError) -> Self {
         Self::FailedToSendMessage
     }
 }
@@ -108,7 +108,7 @@ pub async fn send_request(request: NewRequest) -> tauri::Result<Response> {
                 headers
             })
         }
-        Err(e) => Err(RequestError::SendError.into()),
+        Err(_e) => Err(RequestError::SendError.into()),
     }
 
 }
