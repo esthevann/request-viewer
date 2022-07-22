@@ -4,6 +4,8 @@
 )]
 
 use tauri_plugin_sql::{Migration, MigrationKind, TauriSql};
+use crate::request::send_request;
+mod request;
 
 fn main() {
     tauri::Builder::default()
@@ -16,7 +18,7 @@ fn main() {
                 kind: MigrationKind::Up,
             }],
         ))
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![greet, send_request])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
