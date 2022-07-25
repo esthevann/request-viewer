@@ -2,7 +2,7 @@ import { Link } from "raviger"
 
 interface RequestProps {
     name: string
-    address?: string
+    address?: string 
 }
 
 export default function Request(props: RequestProps) {

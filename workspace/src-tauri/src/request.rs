@@ -3,8 +3,11 @@ use std::collections::HashMap;
 use reqwest::{Client, IntoUrl, Method, RequestBuilder};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
+use ts_rs::TS;
 
-#[derive(Debug, Serialize, Deserialize)]
+
+#[derive(Debug, Serialize, Deserialize, TS)]
+#[ts(export)]
 pub struct NewRequest {
     address: String,
     method: MethodType,
@@ -12,14 +15,16 @@ pub struct NewRequest {
     body_type: BodyType,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TS)]
+#[ts(export)]
 pub struct Response {
     status: u16,
     body: String,
     headers: HashMap<String, String>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Copy, Clone)]
+#[derive(Debug, Serialize, Deserialize, Copy, Clone, TS)]
+#[ts(export)]
 enum MethodType {
     GET,
     POST,
@@ -38,7 +43,9 @@ impl From<&MethodType> for Method {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, TS)]
+#[ts(export)]
+
 enum BodyType {
     Json,
     Text,

@@ -1,0 +1,15 @@
+datasource db {
+    provider = "postgresql"
+    url = "postgresql://postgres:yoyHUDvrrZPDN6X2@db.rwryoviujjinfuqxoszm.supabase.co:5432/postgres"
+}
+
+generator client {
+    provider = "cargo prisma"
+    output = "./mod.rs"
+}
+
+model Request {
+    id   String @id @default(cuid())
+    address String?
+    name String
+}
