@@ -1,9 +1,9 @@
-use serde::{Deserialize, Serialize};
-use ts_rs::TS;
 use crate::prisma::{
     self,
     request::{address, id, name},
 };
+use serde::{Deserialize, Serialize};
+use ts_rs::TS;
 
 #[derive(Debug, Serialize, Deserialize, TS)]
 #[ts(export)]
@@ -85,6 +85,27 @@ pub async fn list_all_requests() -> Result<Vec<RequestRecord>, String> {
                 name: x.name,
             })
             .collect()),
+        Err(e) => Err(format!("Error: {}", e.to_string())),
+    }
+}
+
+#[tauri::command]
+pub async fn get_record_by_id(id: String) -> Result<RequestRecord, String> {
+    let client = prisma::new_client().await.unwrap();
+    let rec = client.request().find_unique(id::equals(id)).exec().await;
+
+    match rec {
+        Ok(d) => {
+            if let Some(data) = d {
+                Ok(RequestRecord {
+                    id: data.id,
+                    address: data.address,
+                    name: data.name,
+                })
+            } else {
+                Err("Request not found".to_string())
+            }
+        }
         Err(e) => Err(format!("Error: {}", e.to_string())),
     }
 }

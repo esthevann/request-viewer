@@ -3,7 +3,7 @@
     windows_subsystem = "windows"
 )]
 
-use crate::db::{create_request_record, list_all_requests, update_request_record};
+use crate::db::{create_request_record, list_all_requests, update_request_record, get_record_by_id};
 use crate::request::send_request;
 mod db;
 mod prisma;
@@ -16,7 +16,8 @@ fn main() {
             send_request,
             create_request_record,
             update_request_record,
-            list_all_requests
+            list_all_requests,
+            get_record_by_id
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

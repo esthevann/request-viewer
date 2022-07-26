@@ -40,7 +40,7 @@ function Home() {
         {data && 
           <div>
             {data.map(request => (
-              <Request name={request.name} address={request.address || undefined} key={request.id}/>
+              <Request id={request.id} name={request.name} address={request.address || undefined} key={request.id}/>
             ))}
           </div>}
       </div>

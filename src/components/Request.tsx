@@ -1,6 +1,7 @@
 import { Link } from "raviger"
 
-interface RequestProps {
+export interface RequestProps {
+    id: string
     name: string
     address?: string 
 }
@@ -18,8 +19,8 @@ export default function Request(props: RequestProps) {
                 }
             </div>
             <div className="flex gap-2">
-                <Link href="/request" className="bg-blue-500 text-white px-3 py-2 rounded-full">Load</Link>
-                <button className="bg-green-700 text-white px-3 py-2 rounded-full">Edit</button>
+                <Link href={`/${props.id}/request`} className="bg-blue-500 text-white px-3 py-2 rounded-full">Load</Link>
+                <Link href={`/${props.id}/edit`} className="bg-green-700 text-white px-3 py-2 rounded-full">Edit</Link>
                 <button className="bg-red-500 text-white px-3 py-2 rounded-full">Remove</button>
             </div>
 
