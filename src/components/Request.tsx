@@ -8,7 +8,7 @@ export interface RequestProps {
 
 export default function Request(props: RequestProps) {
     return (
-        <div className="flex items-center justify-between gap-6 border p-4">
+        <div className="flex items-center justify-between gap-32 border p-9">
             <div className="flex flex-col gap-2">
                 <h1 className="font-bold text-xl">{props.name}</h1>
                 {props.address &&

@@ -23,11 +23,11 @@ export default function RequestEditPage(){
             <form action="" className="flex flex-col gap-1">
                 <label htmlFor="" className="flex gap-1">
                     Name:&nbsp;&nbsp;&nbsp;
-                    <input type="text" value={data?.name} className="border px-1" />
+                    <input type="text" value={data?.name} className="border px-1 text-black" />
                 </label>
                 <label htmlFor="" className="flex gap-1">
                     Address:
-                    <input type="text" value={data?.address || ''} className="border px-1" />
+                    <input type="text" value={data?.address || ''} className="border px-1 text-black" />
                 </label>
                 
             </form>

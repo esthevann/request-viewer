@@ -25,12 +25,12 @@ function Home() {
         <h1 className='text-3xl font-bold '>Request maker</h1>
         <label htmlFor="" className='flex gap-2'>
           Name:
-          <input type="text" value={requestName} onChange={(e) => setRequestName(e.target.value)} className='border' spellCheck={false} />
+          <input type="text" value={requestName} onChange={(e) => setRequestName(e.target.value)} className='border text-black px-1' spellCheck={false} />
         </label>
         <button disabled={isLoading || requestMutation.isLoading} className='bg-blue-500 text-white px-3 py-2 rounded-full'> New Request </button>
       </form>
 
-      <div className='flex flex-col ml-3 gap-3'>
+      <div className='flex flex-col ml-3 gap-3 items-center'>
         <h2 className='text-2xl font-bold'>My Requests</h2>
         {isLoading && <div>
           Loading
