@@ -1,24 +1,22 @@
-import { FormEvent, FormEventHandler, useState } from 'react';
-import { invoke, http } from '@tauri-apps/api';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { FormEventHandler, useState } from 'react';
 import Request from '../components/Request';
-import RequestService from '../services/RequestService'
+import useRequests from '../hooks/useRequests';
+import useCreateRequest from '../hooks/useCreateRequest';
 
 function Home() {
-  const client = useQueryClient();
-
-  const {data, isLoading} = useQuery(['requests'], RequestService.get_all_requests);
-
   const [requestName, setRequestName] = useState("");
+
+  const { data, isLoading } = useRequests();
+  const requestMutation = useCreateRequest();
+
+  
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault(); 
-    invoke("create_request_record", { args: { name: requestName, address: null } })
-      .then(data => {
-        console.log(data);
-        client.invalidateQueries(['requests'])
-      })
-      .catch(e => console.log(e))
-    
+    e.preventDefault();
+    requestMutation.mutate({name: requestName, address: null}, {
+      onSuccess: () => {
+        setRequestName("");
+      }
+    });
   }
 
   return (
@@ -29,18 +27,18 @@ function Home() {
           Name:
           <input type="text" value={requestName} onChange={(e) => setRequestName(e.target.value)} className='border' spellCheck={false} />
         </label>
-        <button className='bg-blue-500 text-white px-3 py-2 rounded-full'> New Request </button>
+        <button disabled={isLoading || requestMutation.isLoading} className='bg-blue-500 text-white px-3 py-2 rounded-full'> New Request </button>
       </form>
 
       <div className='flex flex-col ml-3 gap-3'>
         <h2 className='text-2xl font-bold'>My Requests</h2>
         {isLoading && <div>
-            Loading
-          </div>}
-        {data && 
+          Loading
+        </div>}
+        {data &&
           <div>
             {data.map(request => (
-              <Request id={request.id} name={request.name} address={request.address || undefined} key={request.id}/>
+              <Request id={request.id} name={request.name} address={request.address || undefined} key={request.id} />
             ))}
           </div>}
       </div>

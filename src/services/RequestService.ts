@@ -28,8 +28,22 @@ async function get_request_by_id(id: string): Promise<RequestRecord>{
     }
 }
 
+async function create_request(name: string, address: string | null): Promise<RequestRecord> {
+    try {
+        let request: RequestRecord = await invoke("create_request_record", { args: { name, address } });
+        return request;
+    } catch (error) {
+        if (error instanceof Error){
+            throw error
+        } else {
+            throw new Error("unknown error")
+        }
+    }
+}
+
 
 export default {
     get_all_requests,
-    get_request_by_id
+    get_request_by_id,
+    create_request
 }

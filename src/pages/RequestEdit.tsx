@@ -1,11 +1,9 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, navigate, usePathParams } from "raviger";
-import RequestService from "../services/RequestService";
+import useGetRequestById from "../hooks/useGetRequestById";
 
 
 
 export default function RequestEditPage(){
-    const client = useQueryClient();
     const path = usePathParams('/:requestId/edit');
     
     if (!path || !path.requestId){
@@ -15,7 +13,7 @@ export default function RequestEditPage(){
 
     const requestId = path.requestId;
 
-    const {data, isLoading} = useQuery(['get_request_by_id', requestId], () => RequestService.get_request_by_id(requestId));
+    const {data, isLoading} = useGetRequestById(requestId);
 
     
     return (
