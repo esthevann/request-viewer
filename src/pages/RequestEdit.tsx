@@ -1,4 +1,5 @@
 import { Link, navigate, usePathParams } from "raviger";
+import Spinner from "../components/Spinner";
 import useGetRequestById from "../hooks/useGetRequestById";
 
 
@@ -15,6 +16,13 @@ export default function RequestEditPage(){
 
     const {data, isLoading} = useGetRequestById(requestId);
 
+    if (isLoading) {
+        return (
+            <div className="flex flex-col h-screen items-center justify-center mt-3">
+                <Spinner />
+            </div>
+        )
+    }
     
     return (
         <div className="flex flex-col items-center mt-3">

@@ -2,6 +2,7 @@ import { FormEventHandler, useState } from 'react';
 import Request from '../components/Request';
 import useRequests from '../hooks/useRequests';
 import useCreateRequest from '../hooks/useCreateRequest';
+import Spinner from '../components/Spinner';
 
 function Home() {
   const [requestName, setRequestName] = useState("");
@@ -32,8 +33,9 @@ function Home() {
 
       <div className='flex flex-col ml-3 gap-3 items-center'>
         <h2 className='text-2xl font-bold'>My Requests</h2>
-        {isLoading && <div>
-          Loading
+        {isLoading && <div >
+          <div className='pb-20'></div>
+          <Spinner />
         </div>}
         {data &&
           <div>
@@ -43,7 +45,6 @@ function Home() {
           </div>}
       </div>
     </div>
-
   )
 }
 
