@@ -5,3 +5,9 @@ export interface RequestRecord {
 export interface CreateRequestArgs {
     name: string, address: string | null,
 }
+
+export interface UpdateRequestArgs {
+    id: string,
+    name: string,
+    address: string
+}

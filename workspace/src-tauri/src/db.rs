@@ -46,12 +46,12 @@ pub async fn create_request_record(args: CreateRequestArgs) -> Result<RequestRec
 }
 
 #[tauri::command]
-pub async fn update_request_record(id: &str, address: &str) -> Result<RequestRecord, String> {
+pub async fn update_request_record(id: &str, address: &str, name: &str) -> Result<RequestRecord, String> {
     let client = prisma::new_client().await.unwrap();
     let req = client
         .request()
         .find_unique(id::equals(id.to_owned()))
-        .update(vec![address::set(Some(address.to_owned()))])
+        .update(vec![address::set(Some(address.to_owned())), name::set(name.to_owned())])
         .exec()
         .await;
 

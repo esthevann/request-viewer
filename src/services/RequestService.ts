@@ -41,9 +41,22 @@ async function create_request(name: string, address: string | null): Promise<Req
     }
 }
 
+async function update_request(id: string, address: string, name: string): Promise<RequestRecord> {
+    try {
+        let request: RequestRecord = await invoke("update_request_record", { id, address, name });
+        return request;
+    } catch (error) {
+        if (error instanceof Error){
+            throw error
+        } else {
+            throw new Error("unknown error")
+        }
+    }
+}
 
 export default {
     get_all_requests,
     get_request_by_id,
-    create_request
+    create_request,
+    update_request
 }
