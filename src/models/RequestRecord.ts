@@ -9,5 +9,5 @@ export interface CreateRequestArgs {
 export interface UpdateRequestArgs {
     id: string,
     name: string,
-    address: string
+    address: string | null
 }

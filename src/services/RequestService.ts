@@ -41,7 +41,7 @@ async function create_request(name: string, address: string | null): Promise<Req
     }
 }
 
-async function update_request(id: string, address: string, name: string): Promise<RequestRecord> {
+async function update_request(id: string, address: string | null, name: string): Promise<RequestRecord> {
     try {
         let request: RequestRecord = await invoke("update_request_record", { id, address, name });
         return request;

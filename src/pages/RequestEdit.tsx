@@ -2,6 +2,7 @@ import { Link, navigate, usePathParams } from "raviger";
 import { FormEventHandler, useEffect, useState } from "react";
 import Spinner from "../components/Spinner";
 import useGetRequestById from "../hooks/useGetRequestById";
+import useFetchRequestData from "../hooks/useSomething";
 import useUpdateRequest from "../hooks/useUpdateRequest";
 
 
@@ -9,12 +10,7 @@ import useUpdateRequest from "../hooks/useUpdateRequest";
 export default function RequestEditPage(){
     const path = usePathParams('/:requestId/edit');
     const requestId = path?.requestId || "";
-    const {data, isLoading} = useGetRequestById(requestId);
-
-    const [name, setName] = useState(data?.name ||"");
-    const [address, setAdress] = useState(data?.address ||"");
-    const [method, setMethod] = useState("GET");
-
+    const {name, address, method, setName, setAdress, setMethod, isLoading} = useFetchRequestData(requestId);
     const requestUpdater = useUpdateRequest();
     
     if (!path || !path.requestId){
@@ -22,7 +18,7 @@ export default function RequestEditPage(){
         return <></>
     }
 
-    if (isLoading || !data) {
+    if (isLoading || name == "") {
         return (
             <div className="flex flex-col h-screen items-center justify-center mt-3">
                 <Spinner />
