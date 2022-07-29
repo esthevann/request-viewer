@@ -8,6 +8,8 @@ function Home() {
   const [requestName, setRequestName] = useState("");
 
   const { data, isLoading } = useRequests();
+  console.log(data);
+  
   const requestMutation = useCreateRequest();
 
   

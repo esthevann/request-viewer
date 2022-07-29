@@ -2,8 +2,10 @@ use crate::prisma::{
     self,
     request::{address, id, name},
 };
+use prisma_client_rust::chrono::{DateTime, FixedOffset, Date};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
+
 
 #[derive(Debug, Serialize, Deserialize, TS)]
 #[ts(export)]
@@ -11,6 +13,7 @@ pub struct RequestRecord {
     id: String,
     name: String,
     address: Option<String>,
+    created_at: DateTime<FixedOffset>
 }
 
 #[derive(Debug, Serialize, Deserialize, TS)]
@@ -40,6 +43,7 @@ pub async fn create_request_record(args: CreateRequestArgs) -> Result<RequestRec
             name: d.name,
             id: d.id,
             address: d.address,
+            created_at: d.created_at
         }),
         Err(e) => Err(format!("Error: {}", e.to_string())),
     }
@@ -62,6 +66,7 @@ pub async fn update_request_record(id: &str, address: &str, name: &str) -> Resul
                     id: data.id,
                     address: data.address,
                     name: data.name,
+                    created_at: data.created_at
                 })
             } else {
                 Err("No op".to_owned())
@@ -83,6 +88,7 @@ pub async fn list_all_requests() -> Result<Vec<RequestRecord>, String> {
                 address: x.address,
                 id: x.id,
                 name: x.name,
+                created_at: x.created_at
             })
             .collect()),
         Err(e) => Err(format!("Error: {}", e.to_string())),
@@ -101,6 +107,7 @@ pub async fn get_record_by_id(id: String) -> Result<RequestRecord, String> {
                     id: data.id,
                     address: data.address,
                     name: data.name,
+                    created_at: data.created_at
                 })
             } else {
                 Err("Request not found".to_string())

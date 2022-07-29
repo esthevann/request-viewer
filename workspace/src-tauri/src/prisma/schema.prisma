@@ -12,4 +12,5 @@ model Request {
     id   String @id @default(cuid())
     address String?
     name String
+    createdAt DateTime @default(now())
 }
