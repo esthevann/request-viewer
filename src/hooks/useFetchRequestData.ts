@@ -12,6 +12,7 @@ export default function useFetchRequestData(id: string) {
         if (e.address) {
             setAdress(e.address);
         }
+        setMethod(e.method);
     });
 
     return {

@@ -51,8 +51,20 @@ impl From<crate::prisma::Method> for MethodType  {
             crate::prisma::Method::Get => Self::GET,
             crate::prisma::Method::Post => Self::POST,
             crate::prisma::Method::Put => Self::PUT,
-            crate::prisma::Method::Patch => Self::PUT,
+            crate::prisma::Method::Patch => Self::PATCH,
             crate::prisma::Method::Delete => Self::DELETE,
+        }
+    }
+}
+
+impl From<MethodType> for crate::prisma::Method {
+    fn from(method: MethodType) -> Self {
+        match method {
+            MethodType::GET => Self::Get,
+            MethodType::POST => Self::Post,
+            MethodType::PUT => Self::Put,
+            MethodType::PATCH => Self::Patch,
+            MethodType::DELETE => Self::Delete,
         }
     }
 }

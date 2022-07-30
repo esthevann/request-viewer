@@ -1,6 +1,6 @@
 use crate::{prisma::{
     self,
-    request::{address, id, name},
+    request::{address, id, name, method},
 }, request::MethodType};
 use prisma_client_rust::chrono::{DateTime, FixedOffset};
 use serde::{Deserialize, Serialize};
@@ -52,12 +52,12 @@ pub async fn create_request_record(args: CreateRequestArgs) -> Result<RequestRec
 }
 
 #[tauri::command]
-pub async fn update_request_record(id: &str, address: Option<String>, name: &str) -> Result<RequestRecord, String> {
+pub async fn update_request_record(id: &str, address: Option<String>, name: &str, method: MethodType) -> Result<RequestRecord, String> {
     let client = prisma::new_client().await.unwrap();
     let req = client
         .request()
         .find_unique(id::equals(id.to_owned()))
-        .update(vec![address::set(address), name::set(name.to_owned())])
+        .update(vec![address::set(address), name::set(name.to_owned()), method::set(method.into())])
         .exec()
         .await;
 

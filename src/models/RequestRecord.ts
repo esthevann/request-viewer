@@ -9,5 +9,6 @@ export interface CreateRequestArgs {
 export interface UpdateRequestArgs {
     id: string,
     name: string,
-    address: string | null
+    address: string | null,
+    method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 }

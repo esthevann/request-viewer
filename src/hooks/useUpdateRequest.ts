@@ -4,7 +4,7 @@ import RequestService from "../services/RequestService";
 
 export default function useUpdateRequest() {
     const client = useQueryClient();
-    return useMutation((args: UpdateRequestArgs) => RequestService.update_request(args.id, args.address, args.name), {
+    return useMutation((args: UpdateRequestArgs) => RequestService.update_request(args.id, args.address, args.name, args.method), {
         onSuccess: (updated_request) => {
           client.invalidateQueries(['requests']);
           client.setQueryData(['get_request_by_id', updated_request.id], updated_request);

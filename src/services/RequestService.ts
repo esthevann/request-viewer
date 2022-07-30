@@ -41,9 +41,9 @@ async function create_request(name: string, address: string | null): Promise<Req
     }
 }
 
-async function update_request(id: string, address: string | null, name: string): Promise<RequestRecord> {
+async function update_request(id: string, address: string | null, name: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"): Promise<RequestRecord> {
     try {
-        let request: RequestRecord = await invoke("update_request_record", { id, address, name });
+        let request: RequestRecord = await invoke("update_request_record", { id, address, name, method });
         return request;
     } catch (error) {
         if (error instanceof Error){

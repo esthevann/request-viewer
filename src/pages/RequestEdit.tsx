@@ -29,7 +29,7 @@ export default function RequestEditPage(){
 
     const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        requestUpdater.mutate({ id: requestId, name, address}, {
+        requestUpdater.mutate({ id: requestId, name, address, method: method as "GET" | "POST" | "PUT" | "PATCH" | "DELETE" }, {
             onSuccess: () => {
                 navigate('/')
             }
@@ -51,11 +51,12 @@ export default function RequestEditPage(){
                 </label>
                 <label htmlFor="">
                     Method:&nbsp;
-                    <select name="method" id="method" className="text-black" onChange={(e) => setMethod(e.target.value)}>
+                    <select value={method} name="method" id="method" className="text-black" onChange={(e) => setMethod(e.target.value)}>
                         <option value="GET">GET</option>
                         <option value="POST">POST</option>
                         <option value="PUT">PUT</option>
                         <option value="PATCH">PATCH</option>
+                        <option value="DELETE">DELETE</option>
                     </select>
                 </label>
             </form>
