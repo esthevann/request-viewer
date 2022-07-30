@@ -4,7 +4,7 @@ import type { RequestRecord } from '../models/RequestRecord';
 
 async function get_all_requests(): Promise<RequestRecord[]> {
     try {
-        let request: RequestRecord[] = await invoke("list_all_requests");
+        const request: RequestRecord[] = await invoke("list_all_requests");
         return request;
     } catch (error) {
         if (error instanceof Error){
@@ -17,7 +17,7 @@ async function get_all_requests(): Promise<RequestRecord[]> {
 
 async function get_request_by_id(id: string): Promise<RequestRecord>{
     try {
-        let request: RequestRecord = await invoke("get_record_by_id", { id });
+        const request: RequestRecord = await invoke("get_record_by_id", { id });
         return request;
     } catch (error) {
         if (error instanceof Error){
@@ -30,7 +30,7 @@ async function get_request_by_id(id: string): Promise<RequestRecord>{
 
 async function create_request(name: string, address: string | null): Promise<RequestRecord> {
     try {
-        let request: RequestRecord = await invoke("create_request_record", { args: { name, address } });
+        const request: RequestRecord = await invoke("create_request_record", { args: { name, address } });
         return request;
     } catch (error) {
         if (error instanceof Error){
@@ -43,7 +43,7 @@ async function create_request(name: string, address: string | null): Promise<Req
 
 async function update_request(id: string, address: string | null, name: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"): Promise<RequestRecord> {
     try {
-        let request: RequestRecord = await invoke("update_request_record", { id, address, name, method });
+        const request: RequestRecord = await invoke("update_request_record", { id, address, name, method });
         return request;
     } catch (error) {
         if (error instanceof Error){
@@ -56,7 +56,7 @@ async function update_request(id: string, address: string | null, name: string, 
 
 async function delete_request(id: string): Promise<RequestRecord> {
     try {
-        let request: RequestRecord = await invoke("delete_record", { id });
+        const request: RequestRecord = await invoke("delete_record", { id });
         return request;
     } catch (error) {
         if (error instanceof Error){

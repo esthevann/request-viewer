@@ -16,7 +16,7 @@ const routes = {
 }
 
 export default function App() {
-  let route = useRoutes(routes)
+  const route = useRoutes(routes)
   return (
     <QueryClientProvider client={queryClient}>
       <div>
