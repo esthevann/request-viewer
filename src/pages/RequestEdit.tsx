@@ -1,11 +1,8 @@
 import { Link, navigate, usePathParams } from "raviger";
-import { FormEventHandler, useEffect, useState } from "react";
+import { FormEventHandler } from "react";
 import Spinner from "../components/Spinner";
-import useGetRequestById from "../hooks/useGetRequestById";
 import useFetchRequestData from "../hooks/useFetchRequestData";
 import useUpdateRequest from "../hooks/useUpdateRequest";
-
-
 
 export default function RequestEditPage(){
     const path = usePathParams('/:requestId/edit');
@@ -15,7 +12,6 @@ export default function RequestEditPage(){
     
     if (!path || !path.requestId){
         navigate('/')
-        return <></>
     }
 
     if (isLoading || name == "") {

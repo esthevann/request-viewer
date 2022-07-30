@@ -54,9 +54,23 @@ async function update_request(id: string, address: string | null, name: string, 
     }
 }
 
+async function delete_request(id: string): Promise<RequestRecord> {
+    try {
+        let request: RequestRecord = await invoke("delete_record", { id });
+        return request;
+    } catch (error) {
+        if (error instanceof Error){
+            throw error
+        } else {
+            throw new Error("unknown error")
+        }
+    }
+}
+
 export default {
     get_all_requests,
     get_request_by_id,
     create_request,
-    update_request
+    update_request,
+    delete_request
 }

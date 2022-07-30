@@ -1,4 +1,4 @@
-import { Link } from "raviger"
+import { Link, navigate } from "raviger"
 import Method from "./Method"
 
 export interface RequestProps {
@@ -29,9 +29,8 @@ export default function Request(props: RequestProps) {
             <div className="flex gap-2">
                 <Link href={`/${props.id}/request`} className="bg-blue-500 text-white px-3 py-2 rounded-full">Load</Link>
                 <Link href={`/${props.id}/edit`} className="bg-green-700 text-white px-3 py-2 rounded-full">Edit</Link>
-                <button className="bg-red-500 text-white px-3 py-2 rounded-full">Remove</button>
+                <button className="bg-red-500 text-white px-3 py-2 rounded-full" onClick={() => navigate(`/${props.id}/delete`)}>Remove</button>
             </div>
-
         </div>
     )
 }

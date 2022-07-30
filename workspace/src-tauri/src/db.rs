@@ -1,11 +1,13 @@
-use crate::{prisma::{
-    self,
-    request::{address, id, name, method},
-}, request::MethodType};
+use crate::{
+    prisma::{
+        self,
+        request::{address, id, method, name},
+    },
+    request::MethodType,
+};
 use prisma_client_rust::chrono::{DateTime, FixedOffset};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
-
 
 #[derive(Debug, Serialize, Deserialize, TS)]
 #[ts(export)]
@@ -14,7 +16,7 @@ pub struct RequestRecord {
     name: String,
     address: Option<String>,
     created_at: DateTime<FixedOffset>,
-    method: MethodType
+    method: MethodType,
 }
 
 #[derive(Debug, Serialize, Deserialize, TS)]
@@ -45,19 +47,28 @@ pub async fn create_request_record(args: CreateRequestArgs) -> Result<RequestRec
             id: d.id,
             address: d.address,
             created_at: d.created_at,
-            method: d.method.into()
+            method: d.method.into(),
         }),
         Err(e) => Err(format!("Error: {}", e.to_string())),
     }
 }
 
 #[tauri::command]
-pub async fn update_request_record(id: &str, address: Option<String>, name: &str, method: MethodType) -> Result<RequestRecord, String> {
+pub async fn update_request_record(
+    id: &str,
+    address: Option<String>,
+    name: &str,
+    method: MethodType,
+) -> Result<RequestRecord, String> {
     let client = prisma::new_client().await.unwrap();
     let req = client
         .request()
         .find_unique(id::equals(id.to_owned()))
-        .update(vec![address::set(address), name::set(name.to_owned()), method::set(method.into())])
+        .update(vec![
+            address::set(address),
+            name::set(name.to_owned()),
+            method::set(method.into()),
+        ])
         .exec()
         .await;
 
@@ -69,7 +80,7 @@ pub async fn update_request_record(id: &str, address: Option<String>, name: &str
                     address: data.address,
                     name: data.name,
                     created_at: data.created_at,
-                    method: data.method.into()
+                    method: data.method.into(),
                 })
             } else {
                 Err("No op".to_owned())
@@ -92,9 +103,37 @@ pub async fn list_all_requests() -> Result<Vec<RequestRecord>, String> {
                 id: x.id,
                 name: x.name,
                 created_at: x.created_at,
-                method: x.method.into()
+                method: x.method.into(),
             })
             .collect()),
+        Err(e) => Err(format!("Error: {}", e.to_string())),
+    }
+}
+
+#[tauri::command]
+pub async fn delete_record(id: String) -> Result<RequestRecord, String> {
+    let client = prisma::new_client().await.unwrap();
+    let rec = client
+        .request()
+        .find_unique(id::equals(id))
+        .delete()
+        .exec()
+        .await;
+
+    match rec {
+        Ok(d) => {
+            if let Some(data) = d {
+                Ok(RequestRecord {
+                    id: data.id,
+                    address: data.address,
+                    name: data.name,
+                    created_at: data.created_at,
+                    method: data.method.into(),
+                })
+            } else {
+                Err("Request not found".to_string())
+            }
+        }
         Err(e) => Err(format!("Error: {}", e.to_string())),
     }
 }
@@ -112,7 +151,7 @@ pub async fn get_record_by_id(id: String) -> Result<RequestRecord, String> {
                     address: data.address,
                     name: data.name,
                     created_at: data.created_at,
-                    method: data.method.into()
+                    method: data.method.into(),
                 })
             } else {
                 Err("Request not found".to_string())
