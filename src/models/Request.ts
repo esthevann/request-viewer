@@ -1,6 +1,6 @@
 export interface NewRequest {
     address: string,
-    method: "GET" | "POST" | "PUT" | "PATCH",
+    method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
     body: string,
     body_type: "Json" | "Text" | "Bytes",
 }

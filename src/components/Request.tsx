@@ -1,16 +1,22 @@
 import { Link } from "raviger"
+import Method from "./Method"
 
 export interface RequestProps {
     id: string
     name: string
     address?: string
+    method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 }
 
 export default function Request(props: RequestProps) {
     return (
         <div className="flex items-center justify-between gap-32 border p-9">
-            <div className="flex flex-col gap-2">
-                <h1 className="font-bold text-xl">{props.name}</h1>
+            <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-2">
+                    <h1 className="font-bold text-xl">{props.name}</h1>
+                    <Method method={props.method} />
+                </div>
+                
 
                 <label htmlFor="" className="flex gap-2">
                     Address:

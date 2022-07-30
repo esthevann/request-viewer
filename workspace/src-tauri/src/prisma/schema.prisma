@@ -13,4 +13,13 @@ model Request {
     address String?
     name String
     createdAt DateTime @default(now())
+    method Method @default(GET)
+}
+
+enum Method {
+    GET
+    POST
+    PUT
+    PATCH
+    DELETE
 }

@@ -19,7 +19,7 @@ pub use prisma_client_rust::{queries::Error as QueryError, NewClientError};
 use serde::{Deserialize, Serialize};
 use std::path::Path;
 use std::sync::Arc;
-static DATAMODEL_STR : & 'static str = "datasource db {\r\n    provider = \"postgresql\"\r\n    url = \"postgresql://postgres:yoyHUDvrrZPDN6X2@db.rwryoviujjinfuqxoszm.supabase.co:5432/postgres\"\r\n}\r\n\r\ngenerator client {\r\n    provider = \"cargo prisma\"\r\n    output = \"./mod.rs\"\r\n}\r\n\r\nmodel Request {\r\n    id   String @id @default(cuid())\r\n    address String?\r\n    name String\r\n    createdAt DateTime @default(now())\r\n}" ;
+static DATAMODEL_STR : & 'static str = "datasource db {\r\n    provider = \"postgresql\"\r\n    url = \"postgresql://postgres:yoyHUDvrrZPDN6X2@db.rwryoviujjinfuqxoszm.supabase.co:5432/postgres\"\r\n}\r\n\r\ngenerator client {\r\n    provider = \"cargo prisma\"\r\n    output = \"./mod.rs\"\r\n}\r\n\r\nmodel Request {\r\n    id   String @id @default(cuid())\r\n    address String?\r\n    name String\r\n    createdAt DateTime @default(now())\r\n    method Method @default(GET)\r\n}\r\n\r\nenum Method {\r\n    GET\r\n    POST\r\n    PUT\r\n    PATCH\r\n    DELETE\r\n}" ;
 static DATABASE_STR: &'static str = "postgresql";
 pub async fn new_client() -> Result<_prisma::PrismaClient, NewClientError> {
     let config = parse_configuration(DATAMODEL_STR)?.subject;
@@ -271,8 +271,28 @@ pub mod request {
             }
         }
     }
+    pub mod method {
+        use super::super::*;
+        use super::_prisma::*;
+        use super::{Cursor, OrderByParam, SetParam, UniqueWhereParam, WhereParam, WithParam};
+        pub fn set<T: From<Set>>(value: Method) -> T {
+            Set(value).into()
+        }
+        pub fn equals(value: Method) -> WhereParam {
+            WhereParam::MethodEquals(value).into()
+        }
+        pub fn order(direction: Direction) -> OrderByParam {
+            OrderByParam::Method(direction)
+        }
+        pub struct Set(Method);
+        impl From<Set> for SetParam {
+            fn from(value: Set) -> Self {
+                Self::SetMethod(value.0)
+            }
+        }
+    }
     pub fn _outputs() -> Vec<Selection> {
-        ["id", "address", "name", "createdAt"]
+        ["id", "address", "name", "createdAt", "method"]
             .into_iter()
             .map(|o| {
                 let builder = Selection::builder(o);
@@ -290,6 +310,8 @@ pub mod request {
         pub name: String,
         #[serde(rename = "createdAt")]
         pub created_at: chrono::DateTime<chrono::FixedOffset>,
+        #[serde(rename = "method")]
+        pub method: Method,
     }
     impl Data {}
     #[derive(Clone)]
@@ -305,6 +327,7 @@ pub mod request {
         SetAddress(Option<String>),
         SetName(String),
         SetCreatedAt(chrono::DateTime<chrono::FixedOffset>),
+        SetMethod(Method),
     }
     impl Into<(String, PrismaValue)> for SetParam {
         fn into(self) -> (String, PrismaValue) {
@@ -320,6 +343,9 @@ pub mod request {
                 SetParam::SetCreatedAt(value) => {
                     ("createdAt".to_string(), PrismaValue::DateTime(value))
                 }
+                SetParam::SetMethod(value) => {
+                    ("method".to_string(), PrismaValue::Enum(value.to_string()))
+                }
             }
         }
     }
@@ -329,6 +355,7 @@ pub mod request {
         Address(Direction),
         Name(Direction),
         CreatedAt(Direction),
+        Method(Direction),
     }
     impl Into<(String, PrismaValue)> for OrderByParam {
         fn into(self) -> (String, PrismaValue) {
@@ -346,6 +373,10 @@ pub mod request {
                 ),
                 Self::CreatedAt(direction) => (
                     "createdAt".to_string(),
+                    PrismaValue::String(direction.to_string()),
+                ),
+                Self::Method(direction) => (
+                    "method".to_string(),
                     PrismaValue::String(direction.to_string()),
                 ),
             }
@@ -411,6 +442,7 @@ pub mod request {
         CreatedAtGt(chrono::DateTime<chrono::FixedOffset>),
         CreatedAtGte(chrono::DateTime<chrono::FixedOffset>),
         CreatedAtNot(chrono::DateTime<chrono::FixedOffset>),
+        MethodEquals(Method),
     }
     impl Into<SerializedWhere> for WhereParam {
         fn into(self) -> SerializedWhere {
@@ -774,6 +806,13 @@ pub mod request {
                         PrismaValue::DateTime(value),
                     )]),
                 ),
+                Self::MethodEquals(value) => (
+                    "method".to_string(),
+                    SerializedWhereValue::Object(vec![(
+                        "equals".to_string(),
+                        PrismaValue::Enum(value.to_string()),
+                    )]),
+                ),
             }
         }
     }
@@ -936,6 +975,8 @@ pub mod _prisma {
         Name,
         #[serde(rename = "createdAt")]
         CreatedAt,
+        #[serde(rename = "method")]
+        Method,
     }
     impl ToString for RequestScalarFieldEnum {
         fn to_string(&self) -> String {
@@ -944,6 +985,7 @@ pub mod _prisma {
                 Self::Address => "address".to_string(),
                 Self::Name => "name".to_string(),
                 Self::CreatedAt => "createdAt".to_string(),
+                Self::Method => "method".to_string(),
             }
         }
     }
@@ -979,3 +1021,27 @@ pub mod _prisma {
     }
 }
 pub use _prisma::PrismaClient;
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub enum Method {
+    #[serde(rename = "GET")]
+    Get,
+    #[serde(rename = "POST")]
+    Post,
+    #[serde(rename = "PUT")]
+    Put,
+    #[serde(rename = "PATCH")]
+    Patch,
+    #[serde(rename = "DELETE")]
+    Delete,
+}
+impl ToString for Method {
+    fn to_string(&self) -> String {
+        match self {
+            Self::Get => "GET".to_string(),
+            Self::Post => "POST".to_string(),
+            Self::Put => "PUT".to_string(),
+            Self::Patch => "PATCH".to_string(),
+            Self::Delete => "DELETE".to_string(),
+        }
+    }
+}

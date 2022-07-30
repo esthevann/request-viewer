@@ -44,7 +44,7 @@ function Home() {
             {data.sort((a, b) => {
               return (new Date(b.created_at)).getTime() - (new Date (a.created_at)).getTime();
             }).map(request => (
-              <Request id={request.id} name={request.name} address={request.address || undefined} key={request.id} />
+              <Request id={request.id} name={request.name} method={request.method} address={request.address || undefined} key={request.id} />
             ))}
           </div>}
       </div>

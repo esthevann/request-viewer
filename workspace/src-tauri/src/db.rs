@@ -1,8 +1,8 @@
-use crate::prisma::{
+use crate::{prisma::{
     self,
     request::{address, id, name},
-};
-use prisma_client_rust::chrono::{DateTime, FixedOffset, Date};
+}, request::MethodType};
+use prisma_client_rust::chrono::{DateTime, FixedOffset};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
@@ -13,7 +13,8 @@ pub struct RequestRecord {
     id: String,
     name: String,
     address: Option<String>,
-    created_at: DateTime<FixedOffset>
+    created_at: DateTime<FixedOffset>,
+    method: MethodType
 }
 
 #[derive(Debug, Serialize, Deserialize, TS)]
@@ -43,7 +44,8 @@ pub async fn create_request_record(args: CreateRequestArgs) -> Result<RequestRec
             name: d.name,
             id: d.id,
             address: d.address,
-            created_at: d.created_at
+            created_at: d.created_at,
+            method: d.method.into()
         }),
         Err(e) => Err(format!("Error: {}", e.to_string())),
     }
@@ -66,7 +68,8 @@ pub async fn update_request_record(id: &str, address: Option<String>, name: &str
                     id: data.id,
                     address: data.address,
                     name: data.name,
-                    created_at: data.created_at
+                    created_at: data.created_at,
+                    method: data.method.into()
                 })
             } else {
                 Err("No op".to_owned())
@@ -88,7 +91,8 @@ pub async fn list_all_requests() -> Result<Vec<RequestRecord>, String> {
                 address: x.address,
                 id: x.id,
                 name: x.name,
-                created_at: x.created_at
+                created_at: x.created_at,
+                method: x.method.into()
             })
             .collect()),
         Err(e) => Err(format!("Error: {}", e.to_string())),
@@ -107,7 +111,8 @@ pub async fn get_record_by_id(id: String) -> Result<RequestRecord, String> {
                     id: data.id,
                     address: data.address,
                     name: data.name,
-                    created_at: data.created_at
+                    created_at: data.created_at,
+                    method: data.method.into()
                 })
             } else {
                 Err("Request not found".to_string())

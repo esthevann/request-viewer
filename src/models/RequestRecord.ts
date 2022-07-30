@@ -1,5 +1,5 @@
 export interface RequestRecord {
-     id: string, name: string, address: string | null, created_at: string, 
+     id: string, name: string, address: string | null, created_at: string, method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
     }
 
 export interface CreateRequestArgs {

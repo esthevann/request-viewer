@@ -25,11 +25,12 @@ pub struct Response {
 
 #[derive(Debug, Serialize, Deserialize, Copy, Clone, TS)]
 #[ts(export)]
-enum MethodType {
+pub enum MethodType {
     GET,
     POST,
     PUT,
     PATCH,
+    DELETE
 }
 
 impl From<&MethodType> for Method {
@@ -39,6 +40,19 @@ impl From<&MethodType> for Method {
             MethodType::POST => Self::POST,
             MethodType::PUT => Self::PUT,
             MethodType::PATCH => Self::PATCH,
+            MethodType::DELETE => Self::DELETE,
+        }
+    }
+}
+
+impl From<crate::prisma::Method> for MethodType  {
+    fn from(method: crate::prisma::Method) -> Self {
+        match method {
+            crate::prisma::Method::Get => Self::GET,
+            crate::prisma::Method::Post => Self::POST,
+            crate::prisma::Method::Put => Self::PUT,
+            crate::prisma::Method::Patch => Self::PUT,
+            crate::prisma::Method::Delete => Self::DELETE,
         }
     }
 }
