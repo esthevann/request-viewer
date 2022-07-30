@@ -15,6 +15,7 @@
     "raviger": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-json-pretty": "^2.2.0",
     "react-router-dom": "^6.3.0"
   },
   "devDependencies": {

@@ -141,7 +141,10 @@ pub async fn send_request(request: NewRequest) -> tauri::Result<Response> {
                 headers
             })
         }
-        Err(_e) => Err(RequestError::SendError.into()),
+        Err(e) => {
+            println!("From rust: {e}");
+            Err(RequestError::SendError.into())
+        },
     }
 
 }

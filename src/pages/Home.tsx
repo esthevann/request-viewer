@@ -30,7 +30,7 @@ function Home() {
           Name:
           <input type="text" value={requestName} onChange={(e) => setRequestName(e.target.value)} className='border text-black px-1' spellCheck={false} />
         </label>
-        <button disabled={isLoading || requestMutation.isLoading} className='bg-blue-500 text-white px-3 py-2 rounded-full'> New Request </button>
+        <button disabled={isLoading || requestMutation.isLoading} className='bg-blue-500 text-white px-3 py-2 rounded-full hover:bg-blue-600'> New Request </button>
       </form>
 
       <div className='flex flex-col ml-3 gap-3 items-center'>
